@@ -8,9 +8,9 @@
  * React.ReactChild[];
  */
 
-import React from "react";
+import React from 'react';
 
-type BoxProps = { children: JSX.Element | JSX.Element[] |  React.ReactNode};
+type BoxProps = { children: React.ReactNode };
 
 const Box = ({ children }: BoxProps) => {
   return (
