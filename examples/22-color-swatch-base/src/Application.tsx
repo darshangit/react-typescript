@@ -6,8 +6,11 @@ import { ColorSliders } from './ColorSliders';
 
 import { toRGB } from './utilities';
 import { reducer } from './reducer';
+import { ThemeContext } from './theme-content';
 
 const Application = () => {
+  const themes = React.useContext(ThemeContext);
+
   const [rgb, dispatch] = React.useReducer(reducer, {
     red: 0,
     green: 0,
@@ -15,7 +18,7 @@ const Application = () => {
   });
 
   return (
-    <main style={{ borderColor: toRGB(rgb) }}>
+    <main style={{ borderColor: toRGB(rgb), ...themes.dark }}>
       <ColorSwatch {...rgb} />
       <ColorInputs {...rgb} />
       <ColorSliders {...rgb} />
