@@ -1,8 +1,18 @@
-import { ChangeEvent, useContext } from 'react';
-import { ColorSlider } from './ColorSlider';
+import { ChangeEvent, ComponentType, useContext } from 'react';
 import { RGBContext } from './context';
 
-export const ColorSliders = () => {
+export interface AdjustInputProps {
+  id: string;
+  label: string;
+  value: number;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+}
+
+export interface ColorAdjustmentProps {
+  Adjustment: ComponentType<AdjustInputProps>;
+}
+
+export const ColorAdjustment = ({ Adjustment }: ColorAdjustmentProps) => {
   const { red, green, blue, dispatch } = useContext(RGBContext);
 
   const adjustRed = (event: ChangeEvent<HTMLInputElement>) => {
@@ -19,19 +29,19 @@ export const ColorSliders = () => {
 
   return (
     <section className="color-sliders">
-      <ColorSlider
+      <Adjustment
         id="red-slider"
         label="Red"
         value={red}
         onChange={adjustRed}
       />
-      <ColorSlider
+      <Adjustment
         id="green-slider"
         label="Green"
         value={green}
         onChange={adjustGreen}
       />
-      <ColorSlider
+      <Adjustment
         id="blue-slider"
         label="Blue"
         value={blue}
