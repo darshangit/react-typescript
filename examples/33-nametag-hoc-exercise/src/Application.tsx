@@ -1,3 +1,5 @@
+import React from 'react';
+
 type UserModel = {
   accountId: string;
   displayName: string;
@@ -10,10 +12,20 @@ type NameTagProps = {
 };
 
 const currentUser = {
-  displayName: 'J Mascis',
+  displayName: 'J s',
   accountId: '123',
   isVerified: true
 };
+
+type WithUserProps = {
+  user: UserModel;
+};
+
+function withCurrentUser<T extends WithUserProps>(Component: React.ComponentType<T>) {
+  return (props: Omit<T, keyof WithUserProps>) => {
+    return <Component {...(props as T)} user={currentUser} />;
+  };
+}
 
 const NameTag = ({ user, salutation }: NameTagProps) => {
   return (
@@ -30,6 +42,8 @@ const NameTag = ({ user, salutation }: NameTagProps) => {
   );
 };
 
-const Application = () => <NameTag salutation="Howdy" user={currentUser} />;
+const NameTageWIthCurrentUser = withCurrentUser(NameTag)
+
+const Application = () => <NameTageWIthCurrentUser salutation="Howdy" />;
 
 export default Application;

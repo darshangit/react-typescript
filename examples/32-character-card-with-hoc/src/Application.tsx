@@ -7,6 +7,27 @@ type WithCharacterProps = {
   character: CharacterType;
 };
 
+function withCharacter2<T>(Component: React.ComponentType<T>) {
+  return (props: Omit<T, keyof WithCharacterProps>) => {
+    const [character, setCharacter] = React.useState<CharacterType | null>(
+      null
+    );
+    const [loading, setLoading] = React.useState(true);
+
+    React.useEffect(() => {
+      fetchCharacter().then((c) => {
+        setCharacter(c);
+        setLoading(false);
+      });
+    }, []);
+
+    if (loading) return <Loading />;
+    return <Component {...(props as T)} character={character} />;
+  };
+}
+
+const CharacterInformationWithCharacter2 = withCharacter2(CharacterInformation);
+
 function withCharacter<T extends WithCharacterProps>(
   Component: React.ComponentType<T>
 ) {
@@ -29,7 +50,8 @@ function withCharacter<T extends WithCharacterProps>(
 }
 
 const Application = () => {
-  const CharacterInformationWithCharacter = withCharacter(CharacterInformation);
+  const CharacterInformationWithCharacter =
+    withCharacter2(CharacterInformation);
 
   return (
     <main>
