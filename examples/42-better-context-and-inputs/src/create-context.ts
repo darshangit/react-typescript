@@ -1,13 +1,14 @@
 import * as React from 'react';
 
-export function createContext<A extends {} | null>() {
-  const ctx = React.createContext<A | undefined>(undefined);
-
+export function createContext<T extends {} | null>() {
+  const context = React.createContext<T | undefined>(undefined);
   const useContext = () => {
-    const c = React.useContext(ctx);
-    if (c === undefined)
-      throw new Error('useContext must be inside a Provider with a value');
+    const c = React.useContext(context);
+    if (c === undefined) {
+      throw new Error('no conext provided');
+    }
     return c;
   };
-  return [useContext, ctx.Provider] as const;
+
+  return [useContext, context.Provider] as const;
 }
